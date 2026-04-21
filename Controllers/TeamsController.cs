@@ -41,18 +41,16 @@ namespace TeamAceProject.Controllers
         public IActionResult Create()
         {
             Guid? currentUserId = User.GetCurrentUserId();
+
             if (!currentUserId.HasValue)
             {
                 return RedirectToAction("Login", "Account");
             }
 
-            Team team = new Team
+            return View(new Team
             {
-                UserId = currentUserId.Value,
-                IsPublic = true,
-            };
-
-            return View(team);
+                IsPublic = true
+            });
         }
 
         [Authorize]
@@ -61,19 +59,22 @@ namespace TeamAceProject.Controllers
         public async Task<IActionResult> Create(Team team)
         {
             Guid? currentUserId = User.GetCurrentUserId();
+
             if (!currentUserId.HasValue)
             {
                 return RedirectToAction("Login", "Account");
             }
-
-            team.UserId = currentUserId.Value;
 
             if (!ModelState.IsValid)
             {
                 return View(team);
             }
 
+            // ✅ ONLY set it once, AFTER validation
+            team.UserId = currentUserId.Value;
+
             Team createdTeam = await _teamService.CreateTeamAsync(team);
+
             return RedirectToAction(nameof(Details), new { id = createdTeam.Id });
         }
 
@@ -107,7 +108,10 @@ namespace TeamAceProject.Controllers
         public async Task<IActionResult> RemoveMember(Guid teamId, Guid teamMemberId)
         {
             bool removed = await _teamService.RemoveTeamMemberAsync(teamMemberId);
-            TempData[removed ? "TeamSuccess" : "TeamError"] = removed ? "Pokemon removed from the team." : "That team member could not be removed.";
+
+            TempData[removed ? "TeamSuccess" : "TeamError"] =
+                removed ? "Pokemon removed from the team." : "That team member could not be removed.";
+
             return RedirectToAction(nameof(Details), new { id = teamId });
         }
 

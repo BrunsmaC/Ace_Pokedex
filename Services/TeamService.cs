@@ -137,11 +137,20 @@ namespace TeamAceProject.Services
                 }
             }
 
+            var usedSlots = await _context.TeamMembers
+                .Where(m => m.TeamId == input.TeamId)
+                .Select(m => m.SlotIndex)
+                .ToListAsync();
+
+            int nextSlot = Enumerable.Range(1, 6).FirstOrDefault(s => !usedSlots.Contains(s));
+            if (nextSlot == 0)
+                throw new InvalidOperationException("This team is full (6 Pokémon maximum).");
+
             TeamMember teamMember = new TeamMember
             {
                 Id = Guid.NewGuid(),
                 TeamId = input.TeamId,
-                SlotIndex = input.SlotIndex,
+                SlotIndex = nextSlot,
                 PokemonId = pokemon.Id,
                 PokemonName = pokemon.Name,
                 PokemonSpriteUrl = pokemon.Sprites.Front_Default,

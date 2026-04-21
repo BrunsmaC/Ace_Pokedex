@@ -44,6 +44,13 @@ namespace TeamAceProject.Services
                     FavoritePokemonName = user.FavoritePokemonName,
                     TeamCount = user.Teams.Count,
                     PostCount = user.Posts.Count,
+                    Teams = user.Teams
+                        .Select(team => new TeamSummaryViewModel
+                        {
+                            Id = team.Id,
+                            Name = team.Name
+                        })
+                        .ToList()
                 })
                 .FirstOrDefaultAsync();
         }
@@ -117,6 +124,7 @@ namespace TeamAceProject.Services
 
             user.FavoritePokemonId = pokemonId;
             user.FavoritePokemonName = pokemonName.Trim().ToLowerInvariant();
+
             await _context.SaveChangesAsync();
             return true;
         }

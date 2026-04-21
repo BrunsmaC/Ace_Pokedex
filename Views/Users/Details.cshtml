@@ -7,19 +7,24 @@
     <div class="card-body">
         <h1 class="mb-2">@Model.Username</h1>
         <p class="text-muted">@Model.Email</p>
+
         <div class="row g-3 mb-3">
             <div class="col-sm-4">
                 <div class="border rounded-4 p-3 h-100">
                     <div class="small text-muted">favorite pokemon</div>
-                    <div class="fw-semibold">@(string.IsNullOrWhiteSpace(Model.FavoritePokemonName) ? "none" : Model.FavoritePokemonName)</div>
+                    <div class="fw-semibold">
+                        @(string.IsNullOrWhiteSpace(Model.FavoritePokemonName) ? "none" : Model.FavoritePokemonName)
+                    </div>
                 </div>
             </div>
+
             <div class="col-sm-4">
                 <div class="border rounded-4 p-3 h-100">
                     <div class="small text-muted">teams</div>
                     <div class="fw-semibold">@Model.TeamCount</div>
                 </div>
             </div>
+
             <div class="col-sm-4">
                 <div class="border rounded-4 p-3 h-100">
                     <div class="small text-muted">posts</div>
@@ -27,9 +32,41 @@
                 </div>
             </div>
         </div>
+
         @if (Model.FavoritePokemonId.HasValue && !string.IsNullOrWhiteSpace(Model.FavoritePokemonName))
         {
-            <a class="btn btn-outline-primary" asp-controller="Pokemon" asp-action="Details" asp-route-id="@Model.FavoritePokemonName">view favorite pokemon</a>
+            <a class="btn btn-outline-primary mb-3"
+               asp-controller="Pokemon"
+               asp-action="Details"
+               asp-route-id="@Model.FavoritePokemonName">
+                view favorite pokemon
+            </a>
+        }
+
+        <hr />
+
+        <h4 class="mb-3">your teams</h4>
+
+        @if (Model.Teams != null && Model.Teams.Any())
+        {
+            <ul class="list-group">
+                @foreach (var team in Model.Teams)
+                {
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>@team.Name</span>
+                        <a class="btn btn-sm btn-outline-secondary"
+                           asp-controller="Teams"
+                           asp-action="Details"
+                           asp-route-id="@team.Id">
+                            view
+                        </a>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p class="text-muted">no teams created yet</p>
         }
     </div>
 </div>
