@@ -6,9 +6,6 @@ namespace TeamAceProject.Models.ViewModels.Teams
     {
         public Guid TeamId { get; set; }
 
-        [Range(1, 6)]
-        public int SlotIndex { get; set; }
-
         [Required]
         [StringLength(100)]
         public string PokemonName { get; set; } = string.Empty;

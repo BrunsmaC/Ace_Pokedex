@@ -1,0 +1,81 @@
+@model TeamAceProject.Models.ViewModels.Type.TypeChartViewModel
+@{
+    ViewData["Title"] = "Type Chart";
+
+    var typeColors = new Dictionary<string, string>
+    {
+        { "Normal",   "#A8A878" }, { "Fire",     "#F08030" }, { "Water",    "#6890F0" },
+        { "Electric", "#F8D030" }, { "Grass",    "#78C850" }, { "Ice",      "#98D8D8" },
+        { "Fighting", "#C03028" }, { "Poison",   "#A040A0" }, { "Ground",   "#E0C068" },
+        { "Flying",   "#A890F0" }, { "Psychic",  "#F85888" }, { "Bug",      "#A8B820" },
+        { "Rock",     "#B8A038" }, { "Ghost",    "#705898" }, { "Dragon",   "#7038F8" },
+        { "Dark",     "#705848" }, { "Steel",    "#B8B8D0" }, { "Fairy",    "#EE99AC" }
+    };
+
+    string CellBg(double val) => val switch
+    {
+        2.0  => "#4CAF50",
+        0.5  => "#EF5350",
+        0.0  => "#212121",
+        _    => "#F5F5F5"
+    };
+
+    string CellColor(double val) => val is 2.0 or 0.0 ? "white" : (val == 0.5 ? "white" : "#555");
+
+    string CellText(double val) => val switch
+    {
+        2.0  => "2",
+        0.5  => "½",
+        0.0  => "0",
+        _    => ""
+    };
+}
+
+<div class="d-flex align-items-baseline gap-3 mb-1">
+    <h1 class="mb-0">Type Chart</h1>
+</div>
+<p class="text-muted mb-3">Rows&nbsp;=&nbsp;attacking&nbsp;type &nbsp;·&nbsp; Columns&nbsp;=&nbsp;defending&nbsp;type</p>
+
+<div class="d-flex gap-3 mb-3 flex-wrap" style="font-size: 0.8rem;">
+    <span><span style="display:inline-block;width:14px;height:14px;background:#4CAF50;border-radius:2px;vertical-align:middle;"></span>&nbsp;2× super effective</span>
+    <span><span style="display:inline-block;width:14px;height:14px;background:#EF5350;border-radius:2px;vertical-align:middle;"></span>&nbsp;½× not very effective</span>
+    <span><span style="display:inline-block;width:14px;height:14px;background:#212121;border-radius:2px;vertical-align:middle;"></span>&nbsp;0× immune</span>
+    <span><span style="display:inline-block;width:14px;height:14px;background:#F5F5F5;border:1px solid #ccc;border-radius:2px;vertical-align:middle;"></span>&nbsp;1× normal</span>
+</div>
+
+<div style="overflow-x: auto;">
+    <table style="border-collapse: collapse; font-size: 0.7rem; white-space: nowrap;">
+        <thead>
+            <tr>
+                <th style="min-width: 72px; padding: 4px 6px; border: 1px solid #ccc; background: #fff; font-size: 0.65rem; color: #888; text-align: center; vertical-align: bottom;">
+                    ATK ↓ &nbsp; DEF →
+                </th>
+                @foreach (var def in Model.Types)
+                {
+                    <th style="width: 34px; padding: 0; border: 1px solid #ccc; background-color: @typeColors[def];">
+                        <div style="writing-mode: vertical-rl; transform: rotate(180deg); padding: 6px 4px; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.5); font-weight: 600; height: 72px; display: flex; align-items: center; justify-content: center;">
+                            @def
+                        </div>
+                    </th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @for (int atk = 0; atk < Model.Types.Length; atk++)
+            {
+                <tr>
+                    <td style="padding: 4px 8px; border: 1px solid #ccc; background-color: @typeColors[Model.Types[atk]]; color: white; font-weight: 600; text-shadow: 0 1px 2px rgba(0,0,0,0.5); text-align: center;">
+                        @Model.Types[atk]
+                    </td>
+                    @for (int def = 0; def < Model.Types.Length; def++)
+                    {
+                        var val = Model.Chart[atk][def];
+                        <td style="width: 34px; height: 28px; text-align: center; vertical-align: middle; border: 1px solid #ccc; background-color: @CellBg(val); color: @CellColor(val); font-weight: 700;">
+                            @CellText(val)
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

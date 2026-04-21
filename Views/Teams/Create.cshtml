@@ -9,7 +9,6 @@
     <div class="card-body">
         <form asp-action="Create" method="post">
             @Html.AntiForgeryToken()
-            <input asp-for="UserId" type="hidden" />
 
             <div class="mb-3">
                 <label asp-for="Name" class="form-label"></label>
