@@ -90,6 +90,9 @@ namespace TeamAceProject.Services
                             .OrderBy(move => move.MoveSlot)
                             .Select(move => ToDisplayName(move.MoveName))
                             .ToList(),
+                        Types = string.IsNullOrWhiteSpace(member.PokemonTypes)
+                            ? new List<string>()
+                            : member.PokemonTypes.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList(),
                     })
                     .ToList() ?? new List<PostTeamMemberViewModel>(),
                 Comments = post.Comments.OrderByDescending(comment => comment.CreatedAt)
