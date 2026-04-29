@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "MnmrVp0lNuw=",
+  "dgSpecHash": "ThG00Mp6HvM=",
   "success": true,
-  "projectFilePath": "C:\\Users\\eliwa\\OneDrive - East Tennessee State University\\Spring_2026\\advanced_web\\Ace_Pokedex\\TeamAceProject.csproj",
+  "projectFilePath": "C:\\Users\\eliwa\\OneDrive - East Tennessee State University\\Spring_2026\\data_structures\\projects\\Project3\\test\\Ace_Pokedex\\TeamAceProject.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\eliwa\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\eliwa\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\7.0.0\\microsoft.bcl.asyncinterfaces.7.0.0.nupkg.sha512",
