@@ -63,3 +63,8 @@ body {
 .pokemon-type-dark      { background-color: #705848; color: #fff; }
 .pokemon-type-steel     { background-color: #B8B8D0; color: #333; }
 .pokemon-type-fairy     { background-color: #EE99AC; color: #333; }
+
+.navbar-logo {
+    max-width: 40px;
+    height: auto;
+}
